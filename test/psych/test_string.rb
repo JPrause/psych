@@ -40,6 +40,22 @@ module Psych
       assert_equal '01:03:05', Psych.load(yaml)
     end
 
+    def test_string_resembling_a_number
+      yaml = Psych.dump('1_000')
+      assert_match "'1_000'", yaml
+      assert_equal '1_000', Psych.load(yaml)
+
+      yaml = Psych.dump('1_9_3')
+      assert_match "'1_9_3'", yaml
+      assert_equal '1_9_3', Psych.load(yaml)
+    end
+
+    def test_string_resembling_a_number_backwards_with_syck
+      y = Psych.load("--- 1_9_3\n")
+      assert_equal '1_9_3', y
+      assert_equal String, y.class
+    end
+
     def test_tagged_binary_should_be_dumped_as_binary
       string = "hello world!"
       string.force_encoding 'ascii-8bit'

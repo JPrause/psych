@@ -84,6 +84,15 @@ module Psych
       assert_equal 1.2, ss.tokenize('1.2')
     end
 
+    def test_scan_integer_with_underscores
+      assert_equal 1000, ss.tokenize('1_000')
+      assert_equal 1000000, ss.tokenize('1_000_000')
+    end
+
+    def test_scan_non_integers_with_underscores
+      assert_equal '1_9_3', ss.tokenize('1_9_3')
+    end
+
     def test_scan_true
       assert_equal true, ss.tokenize('true')
     end
